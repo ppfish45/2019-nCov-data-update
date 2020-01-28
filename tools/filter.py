@@ -54,7 +54,7 @@ def process(text, l, r):
     if is_flight(code):
         return True, text[l : r], relative_text(text, l, r), "FLIGHT"
 
-    if text[r + 1] == "路":
+    if text[r] == "路":
         return True, text[l : r + 1], relative_text(text, l, r + 1), "BUS"
 
     if text[r : r + 2] == "号线":
@@ -84,18 +84,62 @@ def find_codes(text):
 
 def filter(text):
 
+    def display(ls, single=False):
+
+        for i, (code, rel_text, rel_type, db_result) in enumerate(ls):
+
+            if single:
+                print(rel_text)
+            else:
+                print(f"============================================================================")
+                print(f"> [{i + 1}/{len(ls)}]")
+                print(highlight("相关编号:", 33) + code)
+                print(highlight("上下文:", 33) + rel_text)
+                print(highlight("类型:", 33) + rel_type)
+                print(highlight("已存在数据: ", 33))
+                for s in db_result:
+                    print(s)
+                print(f"============================================================================")
+
     result = find_codes(text)
+
+    unmatched = []
+    matched = []
+
+    unmatched_r = []
+    matched_r = []
 
     for i, (code, rel_text, rel_type) in enumerate(result):
 
-        db_result = db.search(code)
+        db_result, db_result_r = db.search(code, rel_text), db.search(code, rel_text, True)
 
-        print(f"============================================================================")
-        print(f"> [{i + 1}/{len(result)}]")
-        print(highlight("相关编号:", 33) + code)
-        print(highlight("上下文:", 33) + rel_text)
-        print(highlight("类型:", 33) + rel_type)
-        print(highlight("已存在数据: ", 33))
-        for s in db_result:
-            print(s)
-        print(f"============================================================================")
+        if len(db_result) == 0:
+            unmatched.append((code, rel_text, rel_type, db_result))
+        else:
+            matched.append((code, rel_text, rel_type, db_result))
+
+        if len(db_result_r) == 0:
+            unmatched_r.append((code, rel_text, rel_type, db_result_r))
+        else:
+            matched_r.append((code, rel_text, rel_type, db_result_r))
+
+    while True:
+
+        command = input(f"""
+        \n检索完成。共检索条目{len(result)}条。
+[c] - 只输出上下文，默认关闭, [r] - 反向检索日期，默认关闭 
+输入u[c][r]查看未匹配条目，输入m[c][r]查看匹配条目，输入q退出: """)
+        print("")
+
+        if "q" in command:
+            break
+        elif "u" in command:
+            if "r" in command:
+                display(unmatched_r, "c" in command)
+            else:
+                display(unmatched, "c" in command)
+        else:
+            if "r" in command:
+                display(matched_r, "c" in command)
+            else:
+                display(matched, "c" in command)
