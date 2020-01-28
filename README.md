@@ -1,5 +1,5 @@
 # 2019-nCov-data-update
-快速对官方发布的寻人信息进行筛选，找出未更新的数据条目
+快速对官方发布的寻人信息进行筛选，找出未更新的数据条目。查询网页：[2019-nCoV 新型肺炎确诊患者相同行程查询工具](http://2019ncov.toolmao.com/)
 
 # 推荐环境
 Python 3.7，且需要`json`，`requests`库支持
@@ -39,7 +39,7 @@ $ python3.app.py
 ```
 
 # 实例 - text
-将[https://news.sina.com.cn/c/2020-01-28/doc-iihnzahk6664951.shtml](网页内容)手动复制到`2019-nCov-data-update`目录下的`text.txt`文件
+将[网页内容](https://news.sina.com.cn/c/2020-01-28/doc-iihnzahk6664951.shtml)手动复制到`2019-nCov-data-update`目录下的`text.txt`文件
 ```
 $ python3 app.py
 1 - 输入url，2 - 直接导入文本: 2
