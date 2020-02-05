@@ -17,3 +17,6 @@ with open(os.path.join(json_path, "flight_list.json"), "r") as f:
 
 with open(os.path.join(json_path, "car_list.json"), "r") as f:
     raw_car_code = json.load(f)
+
+with open(os.path.join(json_path, "train_list.json"), "r") as f:
+    raw_train_code = json.load(f)

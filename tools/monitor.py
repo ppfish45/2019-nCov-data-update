@@ -4,7 +4,7 @@ import const.db as db
 import const.paths as paths
 from const.raw import keyword_list
 from tools.filter import find_codes
-from tools.common import highlight, export_xlsx, empty_dir, get_real_url
+from tools.common import highlight, export_xlsx, empty_dir
 
 import os
 import json

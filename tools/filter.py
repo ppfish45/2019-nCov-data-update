@@ -253,6 +253,7 @@ q - 退出:
         elif command == "4":
             path = input("输入图片文件: ")
             text = ocr_text(path)
+            print("\n" + text + "\n")
             filter(text)
         elif command == "q":
             break

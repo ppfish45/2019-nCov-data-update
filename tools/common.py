@@ -1,5 +1,5 @@
 import const.paths as paths
-from const.code import flight_code, train_code, car_code
+from const.code import flight_code, train_code, car_code, all_train
 
 import os
 import glob
@@ -16,8 +16,11 @@ def get_real_url(url, timeout=10):
     r = requests.get(url, headers=headers, timeout=timeout)
     return r.url
 
-def highlight(text, color=32):
-    return f"\033[1;{color};20m {text} \033[0m"
+def highlight(text, color=32, space=True):
+    if space:
+        return f"\033[1;{color};20m {text} \033[0m"
+    else:
+        return f"\033[1;{color};20m{text}\033[0m"
 
 def is_scanned(name):
 
@@ -67,6 +70,8 @@ def is_flight(text):
     return contain_digit(text) and text[:2] in flight_code and not contain_alpha(text[2:]) and 5 <= len(text) <= 6
 
 def is_train(text):
+    if text in all_train:
+        return True
     return contain_digit(text) and text[:1] in train_code and not contain_alpha(text[1:]) and 2 <= len(text) <= 6
 
 def is_car(text):
@@ -93,6 +98,23 @@ def process(text, l, r):
 
     return False, "", "", ""
 
+def find_plain_code(text):
+    result = []
+    last = -1
+
+    text = text + "#"
+
+    for i, ch in enumerate(text):
+        if is_alpha(ch) or ch.isdigit() or ch == "-":
+            if last == -1:
+                last = i
+        else:
+            if last != -1:
+                result.append(text[last:i].upper())
+                last = -1
+
+    return result
+
 def find_codes(text):
 
     result = []
@@ -107,6 +129,7 @@ def find_codes(text):
         else:
             if last != -1:
                 success, code, rel_text, rel_type = process(text, last, i)
+                code = code.upper()
                 if success:
                     result.append((code, rel_text, rel_type))
                 last = -1

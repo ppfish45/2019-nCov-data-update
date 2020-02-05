@@ -47,7 +47,7 @@ def ocr_text(image_path):
             result = r.json()["data"]["item_list"]
             last = result[0]["itemcoord"][0]["y"]
             for item in result:
-                if item["itemcoord"][0]["y"] - last > 5:
+                if item["itemcoord"][0]["y"] - last > 9:
                     last = item["itemcoord"][0]["y"]
                     ret_str += "\n"
                 ret_str += item["itemstring"] + " "
