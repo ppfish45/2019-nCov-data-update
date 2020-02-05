@@ -15,4 +15,4 @@ pip install -r requirements.txt
 `python app.py`
 
 # 感谢
-(https://github.com/dataabc/weibo-crawler)[https://github.com/dataabc/weibo-crawler]
+[https://github.com/dataabc/weibo-crawler](https://github.com/dataabc/weibo-crawler)
