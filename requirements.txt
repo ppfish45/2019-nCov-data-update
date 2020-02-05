@@ -3,3 +3,6 @@ requests
 json
 lxml
 tqdm
+bs4
+pandas
+selenium
