@@ -13,3 +13,6 @@ pip install -r requirements.txt
 
 # 使用
 `python app.py`
+
+# 感谢
+(https://github.com/dataabc/weibo-crawler)[https://github.com/dataabc/weibo-crawler]
